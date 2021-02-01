@@ -1,5 +1,7 @@
 package com.safaeean.barcodescanner;
 
+import java.util.HashMap;
+
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -31,6 +33,10 @@ public class BarcodeScannerView extends FrameLayout implements Camera.PreviewCal
 
         mPreview = new CameraPreview(context, this);
         mMultiFormatReader = new MultiFormatReader();
+        HashMap<DecodeHintType, int[]> hints = new HashMap();
+        int[] a = {4, 16};
+        hints.put(DecodeHintType.ALLOWED_LENGTHS, a);
+        mMultiFormatReader.setHints(hints);
         this.addView(mPreview);
     }
 
