@@ -13,6 +13,6 @@ android {
 }
 
 dependencies {
-    compile 'com.github.pistonsky:zxing:parkly'
+    compile 'com.github.pistonsky:zxing:parkly-itf-4'
     compile "com.facebook.react:react-native:+"  // From node_modules
 }
