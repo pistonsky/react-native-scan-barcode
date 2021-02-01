@@ -12,6 +12,10 @@ android {
     }
 }
 
+repositories {
+    maven { url "https://jitpack.io" }
+}
+
 dependencies {
     compile 'com.github.pistonsky:zxing:parkly'
     compile "com.facebook.react:react-native:+"  // From node_modules
