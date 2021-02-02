@@ -17,6 +17,7 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.MultiFormatReader;
+import com.google.zxing.DecodeHintType;
 import com.google.zxing.PlanarYUVLuminanceSource;
 import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
