@@ -1,6 +1,7 @@
 package com.safaeean.barcodescanner;
 
 import java.util.HashMap;
+import java.lang.Math;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -109,6 +110,40 @@ public class BarcodeScannerView extends FrameLayout implements Camera.PreviewCal
                 WritableMap event = Arguments.createMap();
                 event.putString("data", finalRawResult.getText());
                 event.putString("type", finalRawResult.getBarcodeFormat().toString());
+                ReactContext reactContext = (ReactContext)getContext();
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(
+                        getId(),
+                        "topChange",
+                        event);
+            }
+
+            // now let's try to scan left half of preview
+            int leftPartWidth = Math.round(width / 2);
+            Result leftPartRawResult = null;
+            PlanarYUVLuminanceSource leftPartSource = new PlanarYUVLuminanceSource(data, width, height, 0, 0, leftPartWidth, height, false);
+
+            if (leftPartSource != null) {
+                BinaryBitmap leftPartBitmap = new BinaryBitmap(new HybridBinarizer(leftPartSource));
+                try {
+                    leftPartRawResult = mMultiFormatReader.decodeWithState(leftPartBitmap);
+                } catch (ReaderException re) {
+                    // continue
+                } catch (NullPointerException npe) {
+                    // This is terrible
+                } catch (ArrayIndexOutOfBoundsException aoe) {
+
+                } finally {
+                    mMultiFormatReader.reset();
+                }
+            }
+
+            final Result leftPartFinalRawResult = leftPartRawResult;
+
+            if (leftPartFinalRawResult != null) {
+                Log.i(TAG, leftPartFinalRawResult.getText());
+                WritableMap event = Arguments.createMap();
+                event.putString("data", leftPartFinalRawResult.getText());
+                event.putString("type", leftPartFinalRawResult.getBarcodeFormat().toString());
                 ReactContext reactContext = (ReactContext)getContext();
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(
                         getId(),
